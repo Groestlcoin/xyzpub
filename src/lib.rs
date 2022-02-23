@@ -8,8 +8,8 @@
 //! ```rust
 //! use xyzpub::{convert_version, Version};
 //!
-//! let xpub = "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39T9nMdj";
-//! let expected_zpub = "zpub6qUQGY8YyN3ZxYEgf8J6KCQBqQAbdSWaT9RK54L5FWTTh8na8NkCkZpYHnWt7zEwNhqd6p9Utq562cSZsqGqFE87NNsUKnyZeJ5KvbhfC8E";
+//! let xpub = "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39QFUjw4";
+//! let expected_zpub = "zpub6qUQGY8YyN3ZxYEgf8J6KCQBqQAbdSWaT9RK54L5FWTTh8na8NkCkZpYHnWt7zEwNhqd6p9Utq562cSZsqGqFE87NNsUKnyZeJ5KvbwHYT7";
 //!
 //! let result = convert_version(xpub, &Version::Zpub).unwrap();
 //!
@@ -18,66 +18,66 @@
 //!
 use std::str::FromStr;
 
-use bitcoin::util::base58;
+use groestlcoin::util::base58;
 
-/// Version bytes xpub: bitcoin mainnet public key P2PKH or P2SH
+/// Version bytes xpub: groestlcoin mainnet public key P2PKH or P2SH
 pub const VERSION_XPUB: [u8; 4] = [0x04, 0x88, 0xB2, 0x1E];
 
-/// Version bytes xprv: bitcoin mainnet private key P2PKH or P2SH
+/// Version bytes xprv: groestlcoin mainnet private key P2PKH or P2SH
 pub const VERSION_XPRV: [u8; 4] = [0x04, 0x88, 0xAD, 0xE4];
 
-/// Version bytes ypub: bitcoin mainnet public key P2WPKH in P2SH
+/// Version bytes ypub: groestlcoin mainnet public key P2WPKH in P2SH
 pub const VERSION_YPUB: [u8; 4] = [0x04, 0x9D, 0x7C, 0xB2];
 
-/// Version bytes yprv: bitcoin mainnet private key P2WPKH in P2SH
+/// Version bytes yprv: groestlcoin mainnet private key P2WPKH in P2SH
 pub const VERSION_YPRV: [u8; 4] = [0x04, 0x9D, 0x78, 0x78];
 
-/// Version bytes zpub: bitcoin mainnet public key P2WPKH
+/// Version bytes zpub: groestlcoin mainnet public key P2WPKH
 pub const VERSION_ZPUB: [u8; 4] = [0x04, 0xB2, 0x47, 0x46];
 
-/// Version bytes zprv: bitcoin mainnet private key P2WPKH
+/// Version bytes zprv: groestlcoin mainnet private key P2WPKH
 pub const VERSION_ZPRV: [u8; 4] = [0x04, 0xB2, 0x43, 0x0C];
 
-/// Version bytes Ypub: bitcoin mainnet public key for multi-signature P2WSH in P2SH
+/// Version bytes Ypub: groestlcoin mainnet public key for multi-signature P2WSH in P2SH
 pub const VERSION_YPUB_MULTISIG: [u8; 4] = [0x02, 0x95, 0xb4, 0x3f];
 
-/// Version bytes Yprv: bitcoin mainnet private key for multi-signature P2WSH in P2SH
+/// Version bytes Yprv: groestlcoin mainnet private key for multi-signature P2WSH in P2SH
 pub const VERSION_YPRV_MULTISIG: [u8; 4] = [0x02, 0x95, 0xb0, 0x05];
 
-/// Version bytes Zpub: bitcoin mainnet public key for multi-signature P2WSH
+/// Version bytes Zpub: groestlcoin mainnet public key for multi-signature P2WSH
 pub const VERSION_ZPUB_MULTISIG: [u8; 4] = [0x02, 0xaa, 0x7e, 0xd3];
 
-/// Version bytes Zprv: bitcoin mainnet private key for multi-signature P2WSH
+/// Version bytes Zprv: groestlcoin mainnet private key for multi-signature P2WSH
 pub const VERSION_ZPRV_MULTISIG: [u8; 4] = [0x02, 0xaa, 0x7a, 0x99];
 
-/// Version bytes tpub: bitcoin testnet public key for P2PKH or P2SH
+/// Version bytes tpub: groestlcoin testnet public key for P2PKH or P2SH
 pub const VERSION_TPUB: [u8; 4] = [0x04, 0x35, 0x87, 0xCF];
 
-/// Version bytes tprv: bitcoin testnet private key for P2PKH or P2SH
+/// Version bytes tprv: groestlcoin testnet private key for P2PKH or P2SH
 pub const VERSION_TPRV: [u8; 4] = [0x04, 0x35, 0x83, 0x94];
 
-/// Version bytes upub: bitcoin testnet public key for P2WPKH in P2SH
+/// Version bytes upub: groestlcoin testnet public key for P2WPKH in P2SH
 pub const VERSION_UPUB: [u8; 4] = [0x04, 0x4A, 0x52, 0x62];
 
-/// Version bytes uprv: bitcoin testnet private key for P2WPKH in P2SH
+/// Version bytes uprv: groestlcoin testnet private key for P2WPKH in P2SH
 pub const VERSION_UPRV: [u8; 4] = [0x04, 0x4A, 0x4E, 0x28];
 
-/// Version bytes vpub: bitcoin testnet public key for P2WPKH
+/// Version bytes vpub: groestlcoin testnet public key for P2WPKH
 pub const VERSION_VPUB: [u8; 4] = [0x04, 0x5F, 0x1C, 0xF6];
 
-/// Version bytes vprv: bitcoin testnet private key for P2WPKH
+/// Version bytes vprv: groestlcoin testnet private key for P2WPKH
 pub const VERSION_VPRV: [u8; 4] = [0x04, 0x5F, 0x18, 0xBC];
 
-/// Version bytes Upub: bitcoin testnet public key for multi-signature P2WSH in P2SH
+/// Version bytes Upub: groestlcoin testnet public key for multi-signature P2WSH in P2SH
 pub const VERSION_UPUB_MULTISIG: [u8; 4] = [0x02, 0x42, 0x89, 0xef];
 
-/// Version bytes Uprv: bitcoin testnet private key for multi-signature P2WSH in P2SH
+/// Version bytes Uprv: groestlcoin testnet private key for multi-signature P2WSH in P2SH
 pub const VERSION_UPRV_MULTISIG: [u8; 4] = [0x02, 0x42, 0x85, 0xb5];
 
-/// Version bytes Vpub: bitcoin testnet public key for multi-signature P2WSH
+/// Version bytes Vpub: groestlcoin testnet public key for multi-signature P2WSH
 pub const VERSION_VPUB_MULTISIG: [u8; 4] = [0x02, 0x57, 0x54, 0x83];
 
-/// Version bytes Vprv: bitcoin testnet private key for multi-signature P2WSH
+/// Version bytes Vprv: groestlcoin testnet private key for multi-signature P2WSH
 pub const VERSION_VPRV_MULTISIG: [u8; 4] = [0x02, 0x57, 0x50, 0x48];
 
 /// xyzpub error.
@@ -110,64 +110,64 @@ impl From<base58::Error> for Error {
 #[derive(Debug, Clone, PartialEq, Eq)]
 /// Enum for version bytes.
 pub enum Version {
-    /// Version bytes xpub: bitcoin mainnet public key P2PKH or P2SH
+    /// Version bytes xpub: groestlcoin mainnet public key P2PKH or P2SH
     Xpub,
 
-    /// Version bytes ypub: bitcoin mainnet public key P2WPKH in P2SH
+    /// Version bytes ypub: groestlcoin mainnet public key P2WPKH in P2SH
     Ypub,
 
-    /// Version bytes zpub: bitcoin mainnet public key P2WPKH
+    /// Version bytes zpub: groestlcoin mainnet public key P2WPKH
     Zpub,
 
-    /// Version bytes tpub: bitcoin testnet public key for P2PKH or P2SH
+    /// Version bytes tpub: groestlcoin testnet public key for P2PKH or P2SH
     Tpub,
 
-    /// Version bytes upub: bitcoin testnet public key for P2WPKH in P2SH
+    /// Version bytes upub: groestlcoin testnet public key for P2WPKH in P2SH
     Upub,
 
-    /// Version bytes vpub: bitcoin testnet public key for P2WPKH
+    /// Version bytes vpub: groestlcoin testnet public key for P2WPKH
     Vpub,
 
-    /// Version bytes xprv: bitcoin mainnet private key P2PKH or P2SH
+    /// Version bytes xprv: groestlcoin mainnet private key P2PKH or P2SH
     Xprv,
 
-    /// Version bytes yprv: bitcoin mainnet private key P2WPKH in P2SH
+    /// Version bytes yprv: groestlcoin mainnet private key P2WPKH in P2SH
     Yprv,
 
-    /// Version bytes zpub: bitcoin mainnet public key P2WPKH
+    /// Version bytes zpub: groestlcoin mainnet public key P2WPKH
     Zprv,
 
-    /// Version bytes tprv: bitcoin testnet private key for P2PKH or P2SH
+    /// Version bytes tprv: groestlcoin testnet private key for P2PKH or P2SH
     Tprv,
 
-    /// Version bytes uprv: bitcoin testnet private key for P2WPKH in P2SH
+    /// Version bytes uprv: groestlcoin testnet private key for P2WPKH in P2SH
     Uprv,
 
-    /// Version bytes vprv: bitcoin testnet private key for P2WPKH
+    /// Version bytes vprv: groestlcoin testnet private key for P2WPKH
     Vprv,
 
-    /// Version bytes Ypub: bitcoin mainnet public key for multi-signature P2WSH in P2SH
+    /// Version bytes Ypub: groestlcoin mainnet public key for multi-signature P2WSH in P2SH
     YpubMultisig,
 
-    /// Version bytes Zpub: bitcoin mainnet public key for multi-signature P2WSH
+    /// Version bytes Zpub: groestlcoin mainnet public key for multi-signature P2WSH
     ZpubMultisig,
 
-    /// Version bytes Upub: bitcoin testnet public key for multi-signature P2WSH in P2SH
+    /// Version bytes Upub: groestlcoin testnet public key for multi-signature P2WSH in P2SH
     UpubMultisig,
 
-    /// Version bytes Vpub: bitcoin testnet public key for multi-signature P2WSH
+    /// Version bytes Vpub: groestlcoin testnet public key for multi-signature P2WSH
     VpubMultisig,
 
-    /// Version bytes Yprv: bitcoin mainnet private key for multi-signature P2WSH in P2SH
+    /// Version bytes Yprv: groestlcoin mainnet private key for multi-signature P2WSH in P2SH
     YprvMultisig,
 
-    /// Version bytes Zprv: bitcoin mainnet private key for multi-signature P2WSH
+    /// Version bytes Zprv: groestlcoin mainnet private key for multi-signature P2WSH
     ZprvMultisig,
 
-    /// Version bytes Uprv: bitcoin testnet private key for multi-signature P2WSH in P2SH
+    /// Version bytes Uprv: groestlcoin testnet private key for multi-signature P2WSH in P2SH
     UprvMultisig,
 
-    /// Version bytes Vprv: bitcoin testnet private key for multi-signature P2WSH
+    /// Version bytes Vprv: groestlcoin testnet private key for multi-signature P2WSH
     VprvMultisig,
 }
 
@@ -283,8 +283,8 @@ mod tests {
 
     #[test]
     fn xpub_to_ypub() {
-        let xpub = "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39T9nMdj";
-        let expected_ypub = "ypub6We8xsTdpgW67F3ZpmWU77JgfS29gpX5Y2u6HfSBsW5ae2yLsiae8WAQGaZJ85b1y4ipMLYvSAiY9Kq1A8rpSzSWW3B3jtA5Na1gXzZ8iqF";
+        let xpub = "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39QFUjw4";
+        let expected_ypub = "ypub6We8xsTdpgW67F3ZpmWU77JgfS29gpX5Y2u6HfSBsW5ae2yLsiae8WAQGaZJ85b1y4ipMLYvSAiY9Kq1A8rpSzSWW3B3jtA5Na1gY1e55bU";
 
         let result = convert_version(xpub, &Version::Ypub).unwrap();
 
@@ -293,8 +293,8 @@ mod tests {
 
     #[test]
     fn xpub_to_zpub() {
-        let xpub = "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39T9nMdj";
-        let expected_zpub = "zpub6qUQGY8YyN3ZxYEgf8J6KCQBqQAbdSWaT9RK54L5FWTTh8na8NkCkZpYHnWt7zEwNhqd6p9Utq562cSZsqGqFE87NNsUKnyZeJ5KvbhfC8E";
+        let xpub = "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39QFUjw4";
+        let expected_zpub = "zpub6qUQGY8YyN3ZxYEgf8J6KCQBqQAbdSWaT9RK54L5FWTTh8na8NkCkZpYHnWt7zEwNhqd6p9Utq562cSZsqGqFE87NNsUKnyZeJ5KvbwHYT7";
 
         let result = convert_version(xpub, &Version::Zpub).unwrap();
 
@@ -303,8 +303,8 @@ mod tests {
 
     #[test]
     fn zpub_to_xpub() {
-        let zpub = "zpub6rFR7y4Q2AijBEqTUquhVz398htDFrtymD9xYYfG1m4wAcvPhXNfE3EfH1r1ADqtfSdVCToUG868RvUUkgDKf31mGDtKsAYz2oz2AGutZYs";
-        let expected_xpub = "xpub6CatWdiZiodmUeTDp8LT5or8nmbKNcuyvz7WyksVFkKB4RHwCD3XyuvPEbvqAQY3rAPshWcMLoP2fMFMKHPJ4ZeZXYVUhLv1VMrjPC7PW6V";
+        let zpub = "zpub6rFR7y4Q2AijBEqTUquhVz398htDFrtymD9xYYfG1m4wAcvPhXNfE3EfH1r1ADqtfSdVCToUG868RvUUkgDKf31mGDtKsAYz2oz2AHsbxPu";
+        let expected_xpub = "xpub6CatWdiZiodmUeTDp8LT5or8nmbKNcuyvz7WyksVFkKB4RHwCD3XyuvPEbvqAQY3rAPshWcMLoP2fMFMKHPJ4ZeZXYVUhLv1VMrjP9DKKYM";
 
         let result = convert_version(zpub, &Version::Xpub).unwrap();
 
@@ -313,8 +313,8 @@ mod tests {
 
     #[test]
     fn xpub_to_tpub() {
-        let xpub = "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39T9nMdj";
-        let expected_tpub = "tpubDCBWBScQPGv4Xk3JSbhw6wYYpayMjb2eAYyArpbSqQTbLDpphHGAetB6VQgVeftLML8vDSUEWcC2xDi3qJJ3YCDChJDvqVzpgoYSuT52MhJ";
+        let xpub = "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39QFUjw4";
+        let expected_tpub = "tpubDCBWBScQPGv4Xk3JSbhw6wYYpayMjb2eAYyArpbSqQTbLDpphHGAetB6VQgVeftLML8vDSUEWcC2xDi3qJJ3YCDChJDvqVzpgoYSuQ5hwy6";
 
         let result = convert_version(xpub, &Version::Tpub).unwrap();
 

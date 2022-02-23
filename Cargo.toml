@@ -2,12 +2,12 @@
 name = "xyzpub"
 version = "0.2.1"
 edition = "2018"
-authors = ["KaiWitt <kaiwitt@protonmail.com>"]
+authors = ["Groestlcoin Developers <groestlcoin@gmail.com>"]
 description = "Convert xpubs and xprvs to different versions."
 readme = "README.md"
-repository = "https://github.com/KaiWitt/xyzpub"
+repository = "https://github.com/Groestlcoin/xyzpub"
 license = "MIT"
-keywords = ["bitcoin", "xpub", "slip132"]
+keywords = ["groestlcoin", "xpub", "slip132"]
 categories = ["cryptography::cryptocurrencies"]
 publish = true
 
@@ -15,4 +15,4 @@ publish = true
 
 
 [dependencies]
-bitcoin = "0.27.0"
+groestlcoin = { git = "https://github.com/Groestlcoin/rust-groestlcoin", branch = "v0.27.0" }
